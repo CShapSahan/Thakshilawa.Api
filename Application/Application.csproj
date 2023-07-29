@@ -20,10 +20,4 @@
     <ProjectReference Include="..\Data\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Security\Users\Commands\" />
-    <Folder Include="Features\Security\Users\QueriesHandlers\" />
-    <Folder Include="Features\Security\Users\Queries\" />
-  </ItemGroup>
-
 </Project>

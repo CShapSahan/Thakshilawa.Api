@@ -21,7 +21,7 @@ namespace Domain.Models.Security
            
         public string UserName { get; set; }
 
-        public bool IsAdminPasswordRest { get; set; } 
+        public bool IsAdminPasswordRest { get; set; } = false;
 
         public bool IsActive { get; set; } = false;       
 
