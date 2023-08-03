@@ -27,9 +27,7 @@ namespace Domain.Models.Security
 
         public ICollection<UserRole> UserRoles { get; set; }
 
-        public ICollection<Student> Student { get; set; }
-
-
+        public ICollection<Student> Student { get; set; }        
 
     }
 }

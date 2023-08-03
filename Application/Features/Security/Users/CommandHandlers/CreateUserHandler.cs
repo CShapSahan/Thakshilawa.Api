@@ -1,12 +1,9 @@
 ﻿using Application.Abstractions.Security;
 using Application.Features.Security.Users.Commands;
+using Domain.BaseClass;
 using Domain.Models.Security;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Application.Features.Security.Users.CommandHandlers
 {
@@ -19,14 +16,19 @@ namespace Application.Features.Security.Users.CommandHandlers
         }
         public async Task<User> Handle(CreateUser request, CancellationToken cancellationToken)
         {
+            var passwordKey = new PasswordKey();
+            string key = passwordKey.key;
+            string iv = passwordKey.iv;
+            request.Password = CryptoHelper.EncryptAES(request.Password, key, iv);
+           
             var newUser= new User{
 
                 Name = request.UserName,
                 Email = request.Email,
                 UserName = request.UserName,
                 Password = request.Password,
-                IsDelete = request.IsDelete,
-                IsActive = request.IsActive,
+                IsDelete = false,
+                IsActive = false,
                 CreatedByUser = request.CreatedByUser,
                 CreatedDate = request.CreatedDate,
                     

@@ -1,4 +1,7 @@
 ﻿
+using Azure.Core;
+using Domain.BaseClass;
+using Domain.Models.Error;
 using Domain.Models.SchoolStudent;
 using Domain.Models.Security;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +26,9 @@ namespace DataAccess
 
         #endregion
 
+        #region Error
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,11 +43,15 @@ namespace DataAccess
                     Name = "SystemAdmin",                    
                 });
 
+            var passwordKey = new PasswordKey();
+            string key = passwordKey.key;
+            string iv = passwordKey.iv;
+            var password = CryptoHelper.EncryptAES("syste@admin.lk", key, iv);
             modelBuilder.Entity<User>().HasData(new User {
                     Id = 1,
                     CreatedByUser = 1,
                     CreatedDate = DateTime.Now,
-                    Email = "syste@admin.lk",
+                    Email = password,
                     IsAdminPasswordRest = false,
                     Name = "SystemAdmin",
                     Password = "Admin@123",

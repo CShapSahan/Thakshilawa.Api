@@ -28,7 +28,8 @@ namespace DataAccess.Repository.Security
 
         public async Task InsertUser(User user)
         {
-            await _dataContext.AddAsync(user);
+            _dataContext.Users.Add(user);
+            await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteUser(int id)
