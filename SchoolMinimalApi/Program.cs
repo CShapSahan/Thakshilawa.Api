@@ -1,20 +1,43 @@
-using Domain;
-using DataAccess;
-using Microsoft.EntityFrameworkCore;
+using MediatR;
+using SchoolMinimalApi.Extensions;
+using Application.Features.Error.CommandHandlers;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Builder;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.RegisterServices();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    _ = options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolConnection"), b => b.MigrationsAssembly("DataAccess"));
 
-});
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseExceptionHandler(c => c.Run(async context =>
+{
+    var exception = context.Features
+        .Get<IExceptionHandlerPathFeature>()
+        .Error;
+  
+    var createErrorLog = new CreateErrorLog
+    {
+        Message = exception.Message,
+        ApiPath = context.Request.Path,
+    };
+    if (exception.InnerException != null)
+    {
+        createErrorLog.InnerException = exception.InnerException.Message;
+    }
+    else
+    {
+        createErrorLog.InnerException = "";
+    }   
+    context.Response.Redirect("/api/errorLog/exception/" +  createErrorLog.Message +","+ createErrorLog.ApiPath.Replace("/","-") + "," + createErrorLog.InnerException);
+   
+})) ;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,29 +48,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+
+
+app.RegisterEndpointDefitnion();
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
