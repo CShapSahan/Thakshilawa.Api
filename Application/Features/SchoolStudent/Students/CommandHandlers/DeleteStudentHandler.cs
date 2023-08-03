@@ -11,13 +11,13 @@ namespace Application.Features.SchoolStudent.Students.CommandHandlers
         {
             _studentRepository = studentRepository;
         }
-        public async Task Handle(DeleteStudent request, CancellationToken cancellationToken)
-        {
-            //await _studentRepository.Delete(request.Id);
 
+        public async Task<Unit> Handle(DeleteStudent request, CancellationToken cancellationToken)
+        {
             var deleteStudent = await _studentRepository.GetbyStudentId(request.Id);
             deleteStudent.IsDelete = true;
             await _studentRepository.Update(deleteStudent);
+            return Unit.Value;
         }
     }
 }
