@@ -4,6 +4,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230729164239_myschool_202307292215")]
+    partial class myschool_202307292215
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Domain.Models.Error.ErrorLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApiPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InnerException")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ErrorLogs");
-                });
 
             modelBuilder.Entity("Domain.Models.SchoolStudent.Student", b =>
                 {
@@ -227,8 +202,8 @@ namespace DataAccess.Migrations
                         {
                             Id = 1,
                             CreatedByUser = 1,
-                            CreatedDate = new DateTime(2023, 8, 1, 16, 31, 54, 320, DateTimeKind.Local).AddTicks(3897),
-                            Email = "5E8CUfqdKRRoxqLCXAFNdQ==",
+                            CreatedDate = new DateTime(2023, 7, 29, 22, 12, 39, 111, DateTimeKind.Local).AddTicks(1359),
+                            Email = "syste@admin.lk",
                             IsActive = true,
                             IsAdminPasswordRest = false,
                             IsDelete = false,
