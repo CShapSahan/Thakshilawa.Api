@@ -15,7 +15,7 @@ namespace SchoolMinimalApi.Extensions
         {
             _mediator=mediator;
         }
-        public async void AddError(CreateErrorLog createErrorLog)
+        public async Task AddError(CreateErrorLog createErrorLog)
         {
             var newError = await _mediator.Send(createErrorLog);
         }

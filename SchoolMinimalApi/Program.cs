@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net.Http;
+using Microsoft.VisualBasic;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterServices();
@@ -34,9 +35,9 @@ app.UseExceptionHandler(c => c.Run(async context =>
     else
     {
         createErrorLog.InnerException = "";
-    }   
-    context.Response.Redirect("/api/errorLog/exception/" +  createErrorLog.Message +","+ createErrorLog.ApiPath.Replace("/","-") + "," + createErrorLog.InnerException);
-   
+    }    
+    context.Response.Redirect("/api/errorLog/exception/" +  createErrorLog.Message +","+ createErrorLog.ApiPath.Replace("/","-") + "," + createErrorLog.InnerException);    
+    
 })) ;
 
 // Configure the HTTP request pipeline.

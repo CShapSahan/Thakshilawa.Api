@@ -35,12 +35,12 @@ namespace SchoolMinimalApi.EndpointDefitnion
                 createErrorLog =new CreateErrorLog 
                 {
                     Message = errorlog[0],
-                    ApiPath = errorlog[1].Replace("-","/"),
+                    ApiPath = errorlog[1],
                     InnerException = errorlog[2]
                 };
-                new ErrorLogCreator(mediator).AddError(createErrorLog);
+                _=new ErrorLogCreator(mediator).AddError(createErrorLog);
                 //AddError(mediator, createErrorLog);               
-                return Results.Ok("Error");
+                return Results.BadRequest("Error: An unexpected issue has occurred. Please review the error log for further details.");
             });
 
         }
