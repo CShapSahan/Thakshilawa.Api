@@ -1,4 +1,5 @@
-﻿using Domain.Models.Security;
+﻿using Domain.DTO.Security;
+using Domain.Models.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace Application.Abstractions.Security
         Task DeleteUser(int id);
 
         Task UpdateUser(User user);
+
+        Task<AllActiveUsersWithTheirActiveRole?> GatActiveUserWithRole(string userName, string password);
     }
 }

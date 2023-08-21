@@ -24,7 +24,7 @@ namespace SchoolMinimalApi.EndpointDefitnion
                 var getUsers = new GetAllUsers();
                 var users = await mediator.Send(getUsers);
                 return Results.Ok(users);
-            }).WithName("GetAllUsers");
+            }).WithName("GetAllUsers").RequireAuthorization("SystemAdmin"); ;
 
             userMap.MapPost("/createUser", async (IMediator mediator, CreateUser createUser) =>
             {

@@ -18,5 +18,7 @@ namespace Domain.Models.Security
         public int UserId { get; set; }
         [ForeignKey("Role")]
         public int RoleId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

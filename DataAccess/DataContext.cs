@@ -51,10 +51,10 @@ namespace DataAccess
                     Id = 1,
                     CreatedByUser = 1,
                     CreatedDate = DateTime.Now,
-                    Email = password,
+                    Email = "Sysetm@me.lk",
                     IsAdminPasswordRest = false,
                     Name = "SystemAdmin",
-                    Password = "Admin@123",
+                    Password = password,
                     UserName = "admin_01",
                     IsActive = true,
                 });
