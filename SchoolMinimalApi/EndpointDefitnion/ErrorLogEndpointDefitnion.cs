@@ -22,32 +22,15 @@ namespace SchoolMinimalApi.EndpointDefitnion
                 var allErros = new GetAllErrors();
                 var errorLogs = await mediator.Send(allErros);
                 return Results.Ok(errorLogs);
-            }).WithName("GetAllError");
+            }).WithName("GetAllError").WithTags("Error Log");
 
             userMap.MapPost("/addNewError", async (IMediator mediator, CreateErrorLog createErrorLog) =>
             {                
                 var newError = await mediator.Send(createErrorLog);
                 return Results.NoContent();
-            }).WithName("AddNewError");
-
-            userMap.Map("/exception/{exception}",   (IMediator mediator,string exception)=> {
-                var errorlog = exception.Split(',');
-                createErrorLog =new CreateErrorLog 
-                {
-                    Message = errorlog[0],
-                    ApiPath = errorlog[1],
-                    InnerException = errorlog[2]
-                };
-                _=new ErrorLogCreator(mediator).AddError(createErrorLog);
-                //AddError(mediator, createErrorLog);               
-                return Results.BadRequest("Error: An unexpected issue has occurred. Please review the error log for further details.");
-            });
+            }).WithName("AddNewError").WithTags("Error Log");      
 
         }
-
-        private  async void AddError(IMediator mediator, CreateErrorLog createErrorLog)
-        {
-            var newError = await mediator.Send(createErrorLog);            
-        }
+       
     }
 }

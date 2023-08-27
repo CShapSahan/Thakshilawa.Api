@@ -31,7 +31,7 @@ namespace SchoolMinimalApi.EndpointDefitnion
                 var token = tokenService.GenerateToken(user);
 
                 return Results.Ok(token);
-            });
+            }).WithTags("SystemLogin");
 
             userMap.MapGet("/testpsw", (string psw) =>
             {

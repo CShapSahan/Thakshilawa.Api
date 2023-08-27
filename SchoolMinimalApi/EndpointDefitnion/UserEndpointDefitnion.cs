@@ -17,40 +17,40 @@ namespace SchoolMinimalApi.EndpointDefitnion
                 var getUser = new GetUserById { Id = id };
                 var user = await mediator.Send(getUser);
                 return Results.Ok(user);
-            }).WithName("GetUserById");
+            }).WithName("GetUserById").WithTags("Users");
 
-            userMap.MapGet("/GetAllUsers", async (IMediator mediator ) =>
+            userMap.MapGet("/GetAllUsers", async (IMediator mediator) =>
             {
                 var getUsers = new GetAllUsers();
                 var users = await mediator.Send(getUsers);
                 return Results.Ok(users);
-            }).WithName("GetAllUsers").RequireAuthorization("SystemAdmin"); ;
+            }).WithName("GetAllUsers").RequireAuthorization("SystemAdmin").WithTags("Users");
 
             userMap.MapPost("/createUser", async (IMediator mediator, CreateUser createUser) =>
             {
 
                 var createdUser = await mediator.Send(createUser);
                 return Results.CreatedAtRoute("GetUserById", new { createdUser.Id }, createdUser);
-            });
+            }).WithTags("Users");
 
             userMap.MapPost("/updateUser", async (IMediator mediator, UpdateUser updateUser) =>
             {
 
                 var updatedUser = await mediator.Send(updateUser);
                 return Results.CreatedAtRoute("GetUserById", new { updatedUser.Id }, updatedUser);
-            });
+            }).WithTags("Users");
 
             userMap.MapPost("/deleteUser", async (IMediator mediator, DeleteUser deleteUser) =>
             {
 
                 var updatedUser = await mediator.Send(deleteUser);
                 return Results.NoContent();
-            });
+            }).WithTags("Users");
 
             userMap.MapGet("/NewErrorTest",  () =>
             {
                 throw new Exception("An Error Occurred...");
-            }).WithName("NewErrorTest");
+            }).WithTags("Users").WithName("NewErrorTest");
         }
     }
 }

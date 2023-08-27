@@ -13,6 +13,7 @@ using Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SchoolMinimalApi.Middleware;
 
 namespace SchoolMinimalApi.Extensions
 {
@@ -35,7 +36,9 @@ namespace SchoolMinimalApi.Extensions
             builder.Services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
             builder.Services.AddMediatR(typeof(CreateUser));
             builder.Services.AddScoped<TokenService>();
+            builder.Services.AddTransient<ExceptionHandlingMiddleware>();
             var secretKey = Application.Services.Setting.GenerateSecretByte();
+
 
             builder.Services.AddAuthentication(config =>
             {
@@ -59,7 +62,7 @@ namespace SchoolMinimalApi.Extensions
             {
                 options.AddPolicy("manager", policy => policy.RequireRole("manager"));
                 options.AddPolicy("admin", policy => policy.RequireRole("admin"));
-                options.AddPolicy("SystemAdmin", policy => policy.RequireRole("SystemAdmin"));
+                //options.AddPolicy("SystemAdmin", policy => policy.RequireRole("SystemAdmin"));
             });
 
             builder.Services.AddSwaggerGen(s =>            {
