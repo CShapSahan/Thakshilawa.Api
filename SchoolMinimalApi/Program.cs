@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net.Http;
 using Microsoft.VisualBasic;
+using SchoolMinimalApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterServices();
@@ -17,28 +18,8 @@ builder.RegisterServices();
 
 var app = builder.Build();
 
-app.UseExceptionHandler(c => c.Run(async context =>
-{
-    var exception = context.Features
-        .Get<IExceptionHandlerPathFeature>()
-        .Error;
-  
-    var createErrorLog = new CreateErrorLog
-    {
-        Message = exception.Message,
-        ApiPath = context.Request.Path,
-    };
-    if (exception.InnerException != null)
-    {
-        createErrorLog.InnerException = exception.InnerException.Message;
-    }
-    else
-    {
-        createErrorLog.InnerException = "";
-    }    
-    context.Response.Redirect("/api/errorLog/exception/" +  createErrorLog.Message +","+ createErrorLog.ApiPath.Replace("/","-") + "," + createErrorLog.InnerException);    
-    
-})) ;
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
